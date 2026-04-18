@@ -14,12 +14,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Category {
+public class Supplier {
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
     private Long id;
     private String name;
-    private String description;
+    private String address;
+    private String phone;
+    private String email;
 }

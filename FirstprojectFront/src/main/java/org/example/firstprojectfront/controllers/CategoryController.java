@@ -6,8 +6,9 @@ import org.example.firstprojectfront.services.CategoryService;
 import org.example.firstprojectfront.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -16,29 +17,40 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
+    
     @PostMapping
-    public Category createCategory(
-            @RequestBody Category category
-    ) {
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
+    public Category createCategory(@RequestBody Category category) {
         return categoryService.createCategory(category);
     }
+    
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_USER', 'USER')")
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
+    
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_USER', 'USER')")
     public Category getCategoryById(@PathVariable long id) {
         return categoryService.getCategoryById(id);
     }
+    
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
     public void deleteCategoryById(@PathVariable long id) {
         categoryService.deleteCategoryById(id);
     }
-    @PutMapping
-    public Category updateCategory(
-            @RequestBody Category category
-    ){
-        return categoryService.createCategory(category);
+    
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
+    public Category updateCategory(@PathVariable long id, @RequestBody Category category){
+        return categoryService.updateCategory(id,category);
+    }
+    
+    @GetMapping("/count")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_USER', 'USER')")
+    public long getCategoryCount() {
+        return categoryService.countCategories();
     }
 }

@@ -11,19 +11,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class PurchaseItem {
     @Id
-   @GeneratedValue(
-           strategy = GenerationType.IDENTITY
-  )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private double price;
-    private String description;
-    private String image;
-    @ManyToOne
-    private Category category;
-    @ManyToOne
-    private Supplier supplier;
 
+    @ManyToOne
+    private Product product;
+
+    private int quantity;
+
+    @ManyToOne
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private PurchaseRequest purchaseRequest;
 }
