@@ -1,5 +1,6 @@
 package org.example.firstprojectfront.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,6 @@ public class PurchaseItem {
     private int quantity;
 
     @ManyToOne
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JsonIgnore
     private PurchaseRequest purchaseRequest;
 }
