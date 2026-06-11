@@ -22,11 +22,7 @@ public class UserController {
     }
 
     @PostMapping({ "/register" })
-    public User signup(@Valid @RequestBody User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return user;
-        }
-
+    public User signup(@Valid @RequestBody User user) {
         service.registerNewUser(user);
 
         return user;

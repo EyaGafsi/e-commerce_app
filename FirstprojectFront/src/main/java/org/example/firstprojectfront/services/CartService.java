@@ -28,7 +28,8 @@ public class CartService {
 
     public CartItem addToCart(String username, Long productId, int quantity) {
         User user = userRepository.findByUsername(username).orElseThrow();
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new org.example.firstprojectfront.exception.ResourceNotFoundException("Product not found with id: " + productId));
 
         // Check if item already exists in cart
         List<CartItem> existingItems = cartItemRepository.findByUser(user);
@@ -44,6 +45,17 @@ public class CartService {
         newItem.setProduct(product);
         newItem.setQuantity(quantity);
         return cartItemRepository.save(newItem);
+    }
+
+    @Transactional
+    public void syncCart(String username, java.util.Map<Long, Integer> items) {
+        for (java.util.Map.Entry<Long, Integer> entry : items.entrySet()) {
+            try {
+                addToCart(username, entry.getKey(), entry.getValue());
+            } catch (org.example.firstprojectfront.exception.ResourceNotFoundException | java.util.NoSuchElementException e) {
+                // Skip products that no longer exist in the database
+            }
+        }
     }
 
     public void removeCartItem(Long cartItemId) {

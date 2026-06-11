@@ -1,5 +1,6 @@
 package org.example.firstprojectfront.controllers;
 
+import jakarta.validation.Valid;
 import org.example.firstprojectfront.entities.Category;
 import org.example.firstprojectfront.entities.Product;
 import org.example.firstprojectfront.services.CategoryService;
@@ -20,7 +21,7 @@ public class CategoryController {
     
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
-    public Category createCategory(@RequestBody Category category) {
+    public Category createCategory(@Valid @RequestBody Category category) {
         return categoryService.createCategory(category);
     }
     
@@ -44,7 +45,7 @@ public class CategoryController {
     
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
-    public Category updateCategory(@PathVariable long id, @RequestBody Category category){
+    public Category updateCategory(@PathVariable long id, @Valid @RequestBody Category category){
         return categoryService.updateCategory(id,category);
     }
     

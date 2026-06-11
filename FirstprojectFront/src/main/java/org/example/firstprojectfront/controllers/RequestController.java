@@ -29,6 +29,12 @@ public class RequestController {
         return requestService.getAllRequests();
     }
 
+    @GetMapping("/my")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'USER')")
+    public List<PurchaseRequest> getMyRequests(Principal principal) {
+        return requestService.getUserRequests(principal.getName());
+    }
+
     @PutMapping("/{id}/status")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
     public PurchaseRequest updateStatus(@PathVariable Long id, @RequestParam String status) {

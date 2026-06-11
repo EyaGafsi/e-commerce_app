@@ -22,14 +22,13 @@ public class RoleController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_SUPERADMIN', 'SUPERADMIN')")
     public List<Role> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_SUPERADMIN', 'SUPERADMIN')")
     public Role getById(@PathVariable Long id) {
         return service.getById(id);
     }

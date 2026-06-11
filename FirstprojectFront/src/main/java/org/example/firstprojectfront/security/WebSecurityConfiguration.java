@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +41,7 @@ public class WebSecurityConfiguration {
                                                 .requestMatchers("/authenticate", "/users/register", "/stomp")
                                                 .permitAll()
                                                 .requestMatchers("/uploads/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 

@@ -1,6 +1,7 @@
 package org.example.firstprojectfront.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,6 @@ public class Role {
     )
     private Long id;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role name is required")
     private RoleName name;
 }

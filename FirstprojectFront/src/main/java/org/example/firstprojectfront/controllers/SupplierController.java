@@ -1,5 +1,6 @@
 package org.example.firstprojectfront.controllers;
 
+import jakarta.validation.Valid;
 import org.example.firstprojectfront.entities.Supplier;
 import org.example.firstprojectfront.services.SupplierService;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class SupplierController {
     
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
-    public Supplier createSupplier(@RequestBody Supplier supplier) {
+    public Supplier createSupplier(@Valid @RequestBody Supplier supplier) {
         return supplierService.createSupplier(supplier);
     }
     
@@ -43,7 +44,7 @@ public class SupplierController {
     
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
-    public Supplier updateSupplier(@PathVariable long id, @RequestBody Supplier supplier){
+    public Supplier updateSupplier(@PathVariable long id, @Valid @RequestBody Supplier supplier){
         return supplierService.updateSupplier(id,supplier);
     }
 

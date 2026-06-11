@@ -63,6 +63,11 @@ public class RequestService {
         return purchaseRequestRepository.findAll();
     }
 
+    public List<PurchaseRequest> getUserRequests(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return purchaseRequestRepository.findByUser(user);
+    }
+
     public PurchaseRequest updateStatus(Long id, String status) {
         PurchaseRequest req = purchaseRequestRepository.findById(id).orElseThrow();
         req.setStatus(status);

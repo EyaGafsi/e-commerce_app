@@ -2,6 +2,9 @@ package org.example.firstprojectfront.services;
 
 import org.example.firstprojectfront.entities.Product;
 import org.example.firstprojectfront.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,4 +53,11 @@ public class ProductService {
         return productRepository.avgPrice();
     }
 
+    public Page<Product> findPaginatedAndSearched(String search, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (search != null && !search.trim().isEmpty()) {
+            return productRepository.findByNameContainingIgnoreCase(search, pageable);
+        }
+        return productRepository.findAll(pageable);
+    }
 }

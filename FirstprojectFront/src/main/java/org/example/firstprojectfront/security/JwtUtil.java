@@ -16,7 +16,6 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // Créer une clé sûre pour HS512 (512 bits minimum)
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     private static final int TOKEN_VALIDITY = 3600 * 5; // 5 heures

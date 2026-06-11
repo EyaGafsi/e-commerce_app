@@ -1,7 +1,9 @@
 package org.example.firstprojectfront.controllers;
 
+import jakarta.validation.Valid;
 import org.example.firstprojectfront.entities.Product;
 import org.example.firstprojectfront.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +28,7 @@ public class ProductController {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
     public Product createProduct(
-            @RequestPart("product") Product product,
+            @RequestPart("product") @Valid Product product,
             @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
 
         if (image != null && !image.isEmpty()) {
@@ -43,13 +45,14 @@ public class ProductController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_USER', 'USER')")
-    public List<Product> getAllProducts() {
-        return productService.findAll();
+    public Page<Product> getAllProducts(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "9") int size) {
+        return productService.findPaginatedAndSearched(search, page, size);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_USER', 'USER')")
     public Product getProductById(@PathVariable long id) {
         return productService.findById(id);
     }
@@ -64,7 +67,7 @@ public class ProductController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN')")
     public Product updateProduct(
             @PathVariable long id,
-            @RequestPart("product") Product product,
+            @RequestPart("product") @Valid Product product,
             @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
 
         if (image != null && !image.isEmpty()) {
@@ -85,13 +88,11 @@ public class ProductController {
     }
 
     @GetMapping("/count")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_USER', 'USER')")
     public long getProductCount() {
         return productService.count();
     }
 
     @GetMapping("/avg")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ADMIN', 'ROLE_USER', 'USER')")
     public double getAvgPrice() {
         return productService.avgPrice();
     }

@@ -18,8 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setMaxFileSize(DataSize.ofMegabytes(10));     // max size per file
-        factory.setMaxRequestSize(DataSize.ofMegabytes(20));  // max total request
+        factory.setMaxFileSize(DataSize.ofMegabytes(10));
+        factory.setMaxRequestSize(DataSize.ofMegabytes(20));
         return factory.createMultipartConfig();
     }
 }

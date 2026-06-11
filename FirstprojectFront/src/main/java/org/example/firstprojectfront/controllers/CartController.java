@@ -29,6 +29,12 @@ public class CartController {
         return cartService.addToCart(principal.getName(), productId, quantity);
     }
 
+    @PostMapping("/sync")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'USER')")
+    public void syncCart(Principal principal, @RequestBody java.util.Map<Long, Integer> items) {
+        cartService.syncCart(principal.getName(), items);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'USER')")
     public void removeFromCart(@PathVariable Long id) {
